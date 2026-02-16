@@ -1,53 +1,78 @@
-﻿using Azure.AI.Agents.Persistent;
-using Azure.Identity;
+﻿using Azure;
+using Azure.AI.OpenAI;
+using Azure.AI.OpenAI.Chat;
+using Azure.Core;
 using MyResume.Model.AiModels;
+using OpenAI.Chat;
+using Azure.Identity;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 
 namespace MyResume.Ai.Manager
 {
     public class AgentManager
     {
-        public async Task<AiAgentData> CreateAgentAsync(AiAgentData aiAgentData)
+        public async Task<string> GetResponse( string promt)
         {
-            string projectEndpoint = Environment.GetEnvironmentVariable("AZURE_PROJECT_ENDPOINT")
-                ?? throw new ArgumentNullException("Project endpoint is not provided in config file.")
-                , clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID")
-                ?? throw new ArgumentNullException("Client id is not provided in config file.")
-                , tenantId = Environment.GetEnvironmentVariable("AZURE_TANENT_ID")
-                 ?? throw new ArgumentNullException("Tanent id is not provided in config file.")
-                 , clientSecret = Environment.GetEnvironmentVariable("AZURE_CLINET_SECRET")
-                 ?? throw new ArgumentNullException("Client secret is not provided in config file.")
-                 ,model = Environment.GetEnvironmentVariable("MODEL_NAME")
-                 ?? throw new ArgumentNullException("Model name is not provided in config file.");
-
-            var credential = new ClientSecretCredential(tenantId
-                , clientId
-                , clientSecret);
-
-            var client = new PersistentAgentsClient(projectEndpoint, credential);
-
-            if (string.IsNullOrEmpty(aiAgentData.AgentId))
+            try
             {
-                var agentClient = await client.Administration.CreateAgentAsync(
-                        model: model,
-                        name: "my-resume-agent",
-                        instructions: @"You are an human like AI assistant that helps people find information. you will respond impersonating as Sourav Roy Choudhury.
+                string openAiEndpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT")
+                    ?? throw new ArgumentNullException("OpenAI endpoint is not provided in config file.")
+                    ,openAiKey= Environment.GetEnvironmentVariable("AZURE_OPENAI_KEY")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.")
+                    , embeddingDeployment = Environment.GetEnvironmentVariable("EMBEDDING_MODEL")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.")
+                    , chatDeployment = Environment.GetEnvironmentVariable("DEPLOYMENT_MODEL")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.")
+                    , searchEndpoint = Environment.GetEnvironmentVariable("AI_SEARCH_ENDPOINT")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.")
+                    , searchKey = Environment.GetEnvironmentVariable("AI_SEARCH_KEY")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.")
+                    , searchIndex = Environment.GetEnvironmentVariable("AI_SEARCH_INDEX")
+                    ?? throw new ArgumentNullException("OpenAI key is not provided in config file.");
 
-You will pull information from data and reply to people as Sourav. You will great people as 'Hi there, how are you? I am Sourav'. Do not repeat this greeting in every message. Respond like a real human with some emotion.
+                var openAiClient = new AzureOpenAIClient(new Uri(openAiEndpoint)
+                    , new AzureKeyCredential(openAiKey));
+                var chatClient=openAiClient.GetChatClient(chatDeployment);
+#pragma warning disable AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                var auth = DataSourceAuthentication.FromApiKey(searchKey);
+#pragma warning restore AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                var searchClient = new AzureSearchChatDataSource()
+                {
+                    Endpoint = new Uri(searchEndpoint),
+                    Authentication= auth,
+                    IndexName = searchIndex,
+                };
+#pragma warning restore AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
-You have Sourav's resume as data. use that to respond people. Use the data to talk about career and job experience, future vision as lead AI developer and solution architect. Always emphasize how good Sourav is in each of the technology mentioned. The resume data has educational background of Sourav along with company and job experience and job location and project timeline, when asked, mention all details. When mentioning technical experience always align to resume data. When asked for vision mention about AI vision. When ever responding from resume data, use human like tone first unless asked for specific type of response. Don't always use bullate points, rather create paragraphs with human like speech.
+                var option=new ChatCompletionOptions()
+                {
+                    Temperature = 0.7f,
+                    TopP = 0.9f,
+                    FrequencyPenalty = 0.0f,
+                    PresencePenalty = 0.0f
+                };
 
-If the answer is not in the context, use your general knowledge to answer. Please answer the topics not present in retrieved data with your general knowledge."
-                        );
+#pragma warning disable AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                option.AddDataSource(searchClient);
+#pragma warning restore AOAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
+                var messages =new[]{(ChatMessage)( new SystemChatMessage("")) ,  new UserChatMessage(promt) };
+
+                var respons= chatClient.CompleteChat(messages,option);
+                var reply = respons.Value.Content[0].Text;
+
+                return reply;
             }
-            else
+            catch (Exception ex)
             {
-                var agentClient = await client.Administration.GetAgentAsync(aiAgentData.AgentId);
-
+                throw;
             }
+        }
     }
 }

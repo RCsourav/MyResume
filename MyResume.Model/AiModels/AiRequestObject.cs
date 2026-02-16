@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MyResume.Model.AiModels
 {
-    public class AiAgentData
+    public class AiRequestObject
     {
-        public string? AgentId { get; set; }
-        public string? ThreadId { get; set; }
+        public string? TreadId { get; set; }
+        public string? Promt { get; set; }
     }
 }
