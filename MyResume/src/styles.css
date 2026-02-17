@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 4px;
+}
+
+/* Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: radial-gradient(circle at top left, #2D0336, #910745,#06010D);
+  border-radius: 4px;
+}
+
+  /* Thumb on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: radial-gradient(circle at top left, #910745, #2D0336,#06010D);
+  }
+
+body {
+  font-family: monospace;
+}

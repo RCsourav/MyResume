@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',

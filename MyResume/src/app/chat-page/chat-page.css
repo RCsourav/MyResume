@@ -1,0 +1,169 @@
+.chat-container {
+  background: radial-gradient(circle at top left, #910745, #2D0336,#06010D);
+  position: absolute;
+  bottom: 0vh;
+  left: 0vw;
+  width: 100vw;
+  height: 100vh;
+  color: #ffffff;
+  font-family: monospace;
+  min-height: 0;
+}
+
+.chat-box {
+  position: relative;
+  top: 10vh;
+  left: 1vw;
+  width: 98vw;
+  height: 70vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.chat-thread {
+  min-height: 69vh;
+  bottom: 0vh;
+  position: relative;
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.response {
+}
+
+.request {
+  text-align: right;
+  width: 100vw;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 10vh;
+  width: 90vw;
+  right: 5vw;
+  background-color: transparent;
+  border: none;
+  min-height: 5vh;
+  text-align: right;
+  color: #E3C62D;
+  font-family: monospace;
+  caret-color: transparent; /* hide the real | cursor */
+  /*border-bottom: 2px solid black;*/ /* looks like _ */
+  /*padding-bottom: 2px;*/
+}
+
+  .chat-input:focus {
+    outline: none;
+  }
+
+.fake-input::after {
+  content: "_";
+  font-weight: bolder;
+  color: #ffffff;
+  z-index: 100;
+  animation: blink 0.8s steps(1) infinite;
+  font-family: monospace;
+}
+
+.header-class-extended {
+  position: absolute;
+  top: 0vh;
+  left: 0vw;
+  height: 100vh;
+  width: 100vw;
+  background-color: #910745;
+  z-index: 1;
+  overflow: hidden;
+  transition: 1s ease;
+}
+
+.header-class {
+  position: absolute;
+  top: 0vh;
+  left: 0vw;
+  height: 9vh;
+  width: 100vw;
+  background-color: #2D0336;
+  z-index: 1;
+  overflow: hidden;
+  transition: 1s ease;
+}
+
+.image-initial {
+  position: absolute;
+  top: 40vh;
+  right: 5vh;
+  text-align: center;
+  font-size: 5rem;
+  font-weight: 900;
+  font-family: Arial;
+  transition: 1s ease;
+}
+
+.image-extended {
+  position: absolute;
+  top: 40vh;
+  right: 10vh;
+  font-size: 5rem;
+  font-weight: 900;
+  font-family: Arial;
+  transition: 1s ease;
+}
+
+.image {
+  position: absolute;
+  top: 3vh;
+  left: 2vh;
+  font-size: 1rem;
+  font-weight: 900;
+  font-family: Rockwell;
+  color: white;
+  font-stretch: ultra-condensed;
+  transition: 1s ease;
+}
+
+.by-extended {
+  position: absolute;
+  right: 10vw;
+  bottom: 5vh;
+  text-align: center;
+  font-size: 0.7rem;
+  transition: 1s ease;
+}
+
+.name-extended {
+  position: absolute;
+  bottom: 1vh;
+  right: 10vw;
+  text-align: center;
+  font-size: 1.3rem;
+  transition: 1s ease;
+  z-index: 10;
+}
+
+.name {
+  position: absolute;
+  bottom: 2vh;
+  right: 3vw;
+  font-size: 0.7rem;
+  transition: 1s ease;
+  z-index: 10;
+}
+
+.footer-class {
+  position: absolute;
+  bottom: 0vh;
+  right: 0vw;
+  width: 100vw;
+  height: 7vh;
+  background-color: #910745;
+}
+
+.fade {
+  opacity: 0;
+  transition: 1s ease;
+}

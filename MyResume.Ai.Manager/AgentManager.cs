@@ -1,8 +1,9 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using Azure.Core;
-using MyResume.Model.AiModels;
 using Azure.Identity;
+using Microsoft.Extensions.Logging;
+using MyResume.Model.AiModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -12,10 +13,21 @@ using System.Text.Json;
 
 namespace MyResume.Ai.Manager
 {
-    public class AgentManager
+    public interface IAgentManager
     {
+        Task<string> GetResponse(string promt);
+    }
+    public class AgentManager : IAgentManager
+    {
+        private readonly ILogger<AgentManager> _logger;
+
+        public AgentManager(ILogger<AgentManager> logger)
+        {
+            _logger = logger;
+        }
         public async Task<string> GetResponse(string promt)
         {
+            _logger.LogInformation("Chat manager started");
             try
             {
                 string openAiEndpoint = Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT")
@@ -83,6 +95,7 @@ Don't respond 'The requested information is not available in the retrieved data.
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 throw;
             }
         }
