@@ -20,7 +20,7 @@ export class FunctionService {
   callAgentChat(payload: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'x-functions-key': environment.functionKey
+      'x-functions-key': ''
     });
 
     return this.http.post<AgentReply>(environment.functionUrl, payload, { headers });
