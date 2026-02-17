@@ -7,4 +7,10 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\MyResume\browser\</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\assets\font\" />
+    <Folder Include="src\assets\img\" />
+    <Folder Include="src\assets\css\" />
+    <Folder Include="src\assets\js\" />
+  </ItemGroup>
 </Project>

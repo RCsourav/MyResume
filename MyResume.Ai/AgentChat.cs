@@ -11,30 +11,39 @@ namespace MyResume.Ai;
 public class AgentChat
 {
     private readonly ILogger<AgentChat> _logger;
+    private readonly IAgentManager _agentManager;
 
-    public AgentChat(ILogger<AgentChat> logger)
+    public AgentChat(IAgentManager manager, ILogger<AgentChat> logger)
     {
         _logger = logger;
+        _agentManager = manager;
     }
 
     [Function("AgentChat")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
     {
-        _logger.LogInformation("C# HTTP trigger 'AgentChat' function is called.");
-
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var input = JsonConvert.DeserializeObject<AiRequestObject>(requestBody);
-
-        var agentManager = new AgentManager();
-        var reply = await agentManager.GetResponse(input!.Promt!);
-
-        var response = new AiResponseObject
+        try
         {
-            Reply = reply,
-            TreadId = null
-        };
+            _logger.LogInformation("C# HTTP trigger 'AgentChat' function is called.");
 
-        _logger.LogInformation("C# HTTP trigger 'AgentChat' function processed a request.");
-        return new OkObjectResult(response);
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var input = JsonConvert.DeserializeObject<AiRequestObject>(requestBody);
+
+            var reply = await _agentManager.GetResponse(input!.Promt!);
+
+            var response = new AiResponseObject
+            {
+                Reply = reply,
+                TreadId = null
+            };
+
+            _logger.LogInformation("C# HTTP trigger 'AgentChat' function processed a request.");
+            return new OkObjectResult(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return new BadRequestObjectResult(ex.ToString());
+        }
     }
 }

@@ -1,0 +1,15 @@
+<div class="chat-container">
+  <div #mainDiv class="chat-box">
+    <div #parentDiv class="chat-thread">
+      <div class="fake-input" [class.fade]="isInputFade"></div>
+    </div>
+  </div>
+
+</div>
+  <textarea class="chat-input" placeholder="your thoughts" #myInput type="text" (keyup.enter)="addRequest(myInput)"></textarea>
+<div [class]="headerClass">
+  <div [class]="imageClass" [class.fade]="isFade">{{headerText}}</div>
+  <div [class]="byClass" [class.fade]="isFadeBy">by</div>
+</div>
+<div [class]="nameClass" [class.fade]="isFade">© Sourav Roy Choudhury</div>
+<div class="footer-class"></div>
