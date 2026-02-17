@@ -8,7 +8,8 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-builder.Services.AddSingleton<IAgentManager, AgentManager>();
+//builder.Services.AddSingleton<IAgentManager, AgentManager>();
+builder.Services.AddSingleton<IAgenticManager, AgenticManager>();
 
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()

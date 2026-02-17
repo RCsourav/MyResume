@@ -11,9 +11,9 @@ namespace MyResume.Ai;
 public class AgentChat
 {
     private readonly ILogger<AgentChat> _logger;
-    private readonly IAgentManager _agentManager;
+    private readonly IAgenticManager _agentManager;
 
-    public AgentChat(IAgentManager manager, ILogger<AgentChat> logger)
+    public AgentChat(IAgenticManager manager, ILogger<AgentChat> logger)
     {
         _logger = logger;
         _agentManager = manager;
@@ -27,18 +27,11 @@ public class AgentChat
             _logger.LogInformation("C# HTTP trigger 'AgentChat' function is called.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var input = JsonConvert.DeserializeObject<AiRequestObject>(requestBody);
 
-            var reply = await _agentManager.GetResponse(input!.Promt!);
-
-            var response = new AiResponseObject
-            {
-                Reply = reply,
-                TreadId = null
-            };
+            var reply = await _agentManager.GetResponse(requestBody);
 
             _logger.LogInformation("C# HTTP trigger 'AgentChat' function processed a request.");
-            return new OkObjectResult(response);
+            return new OkObjectResult(reply);
         }
         catch (Exception ex)
         {

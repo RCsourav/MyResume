@@ -8,11 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../environment';
 
-interface AgentReply {
-  threadId: string;
-  reply: string;
-}
-
 @Component({
   selector: 'app-chat-page',
   standalone: false,
@@ -40,7 +35,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
       'x-functions-key': ''
     });
 
-    return this.http.post<AgentReply>(environment.functionUrl, payload, { headers });
+    return this.http.post<string>(environment.functionUrl, payload, { headers });
   }
 
   addRequestDiv(request: string) {
@@ -97,13 +92,13 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
 
   addRequest(element: HTMLTextAreaElement) {
     this.addRequestDiv(element.value);
-    const request = { promt: element.value, treadId: '' };
+    const request = element.value;
 
     this.callAgentChat(request)
       .subscribe({
         next: res => {
           this.isInputFade = true;
-          this.addResponseDiv(res.reply)
+          this.addResponseDiv(res)
         },
         error: err => {
           this.isInputFade = true;
