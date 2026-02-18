@@ -4,6 +4,10 @@
   <Project Path="MyResume.Api.Manager/MyResume.Api.Manager.csproj" Id="7b792b5a-1bd5-4972-bbc5-dc095800ae5c" />
   <Project Path="MyResume.Api.Repo/MyResume.Api.Repo.csproj" Id="0df26b56-f037-4965-a7d8-8e24c6fd4fd2" />
   <Project Path="MyResume.Api/MyResume.Api.csproj" />
+  <Project Path="MyResume.Database/MyResume.Database.sqlproj" Id="fb4bd8ba-1839-4a47-9a36-d46a8bd9930d">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="MyResume.Model/MyResume.Model.csproj" />
   <Project Path="MyResume/MyResume.esproj">
     <Build />
