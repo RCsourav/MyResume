@@ -31,11 +31,16 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
 
   callAgentChat(payload: any) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-functions-key': ''
+      'Content-Type': 'text/plain',
+      'x-functions-key': '',
+      
     });
 
-    return this.http.post<string>(environment.functionUrl, payload, { headers });
+    return this.http.post(environment.functionUrl, payload, {
+      headers,
+      responseType: 'text'
+    }
+);
   }
 
   addRequestDiv(request: string) {
@@ -101,6 +106,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
           this.addResponseDiv(res)
         },
         error: err => {
+          debugger;
           this.isInputFade = true;
           console.log(err);
           this.addResponseDiv('I beg your pardon. There is something not right at my end. Could you please tell me again?');
