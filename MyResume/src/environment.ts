@@ -14,4 +14,6 @@ export const environment = {
   loginFunctionUrl: 'https://my-resume-sourav-rc-ai.azurewebsites.net/api/api/LogOn',
   logoffFunctionUrl: 'https://my-resume-sourav-rc-ai.azurewebsites.net/api/api/LogOff',
   getActiveSessionFunctionUrl: 'https://my-resume-sourav-rc-ai.azurewebsites.net/api/api/GetActiveSession',
+  saveChatDataFunctionUrl: 'https://my-resume-sourav-rc-ai.azurewebsites.net/api/api/SaveChatData',
+  updatedActivityFunctionUrl: 'https://my-resume-sourav-rc-ai.azurewebsites.net/api/api/UpdatedActivity'
 };

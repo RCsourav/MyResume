@@ -6,7 +6,8 @@ import { ResponseModel } from '../models/response';
 
 import { environment, AppConfigService } from '../../environment';
 import { Router } from '@angular/router';
-import { config } from 'rxjs';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -24,12 +25,23 @@ export class LoginPage implements OnInit {
   loginModule = 'login-module-start';
   buttonClass = 'login-button-high';
   spinnerClass = 'spinner-low';
+  errorClass = 'error-class-up';
   isFade = true;
   isFadeModule = true;
   isButtonFade = false;
   isSpinnerFade = true;
+  isErrorFade = true;
 
   constructor(private renderer: Renderer2, private http: HttpClient, private router: Router, private config: AppConfigService) { }
+
+  form = new FormGroup({
+    userName: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
+  });
+
+  submit() {
+    this.login();
+  }
 
   loginCall(payload: RequestModel) {
     const headers = new HttpHeaders({
@@ -62,6 +74,21 @@ export class LoginPage implements OnInit {
   }
 
   login() {
+    var userNameEl: HTMLInputElement;
+    var emailIdEl: HTMLInputElement;
+
+    userNameEl = this.userNameRef.nativeElement;
+    emailIdEl = this.emailIdRef.nativeElement;
+
+    var request: RequestModel = {
+      emailId: emailIdEl.value,
+      name: userNameEl.value,
+      loginId: 0
+    };
+
+    this.isErrorFade = true;
+    this.errorClass = 'error-class-up';
+
     setTimeout(() => {
       this.isButtonFade = true;
       this.buttonClass = 'login-button-low';
@@ -69,18 +96,6 @@ export class LoginPage implements OnInit {
       setTimeout(() => {
         this.isSpinnerFade = false;
         this.spinnerClass = 'spinner-high';
-
-        var userNameEl: HTMLInputElement;
-        var emailIdEl: HTMLInputElement;
-
-        userNameEl = this.userNameRef.nativeElement;
-        emailIdEl = this.emailIdRef.nativeElement;
-
-        var request: RequestModel = {
-          emailId: emailIdEl.value,
-          name: userNameEl.value,
-          loginId: 0
-        };
         this.loginCall(request)
           .subscribe({
             next: res => {
@@ -91,13 +106,47 @@ export class LoginPage implements OnInit {
                   this.config.globalUsername = res.name;
                   this.config.globalEmail = res.emailId;
                   this.config.globalLoginId = res.loginId;
-
-                  this.router.navigate(['/chat']);
+                  setTimeout(() => {
+                    this.isFadeModule = true;
+                    this.loginModule = 'login-module-start';
+                    setTimeout(() => {
+                      this.nameClass = 'name-original-end';
+                      this.logoCLass = 'logo-original-end';
+                      setTimeout(() => {
+                        this.router.navigate(['/chat']);
+                      }, 1500);
+                    }, 500);
+                  }, 500);
+                }, 200);
+              } else {
+                setTimeout(() => {
+                  this.isSpinnerFade = true;
+                  this.spinnerClass = 'spinner-low';
+                  setTimeout(() => {
+                    this.isButtonFade = false;
+                    this.buttonClass = 'login-button-high';
+                    setTimeout(() => {
+                      this.isErrorFade = false;
+                      this.errorClass = 'error-class-down';
+                    }, 200);
+                  }, 200);
                 }, 200);
               }
             },
             error: err => {
               console.log(err);
+              setTimeout(() => {
+                this.isSpinnerFade = true;
+                this.spinnerClass = 'spinner-low';
+                setTimeout(() => {
+                  this.isButtonFade = false;
+                  this.buttonClass = 'login-button-high';
+                  setTimeout(() => {
+                    this.isErrorFade = false;
+                    this.errorClass = 'error-class-down';
+                  }, 200);
+                }, 200);
+              }, 200);
             },
           });
       }, 200);

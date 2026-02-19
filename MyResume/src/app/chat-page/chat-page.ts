@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 
 import { RequestModel } from '../models/request';
 import { ResponseModel } from '../models/response';
+import { ChatRequestModel } from '../models/chatRequest';
+import { ChatResponseModel } from '../models/chatResponse';
 
 
 
@@ -25,13 +27,10 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
   @ViewChild('parentDiv') parentDiv!: ElementRef;
   @ViewChild('mainDiv') mainDiv!: ElementRef;
 
-  imageClass = 'image-initial';
-  byClass = 'by-extended';
-  nameClass = 'name-extended';
-  headerClass = 'header-class-extended';
-  headerText = 'MY RESUME';
-  isFade = true;
-  isFadeBy = true;
+  nameClass = 'name-original-start';
+  logoCLass = 'logo-original-start';
+  myNameClass = 'my-name-class';
+  headerClass = 'header-container-start';
   isInputFade = true;
 
   constructor(private renderer: Renderer2, private http: HttpClient
@@ -51,16 +50,10 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
 
           }
           else {
-            this.config.globalUsername = '';
-            this.config.globalEmail = '';
-            this.config.globalLoginId = 0;
             this.router.navigate(['/login']);
           }
         },
         error: err => {
-          this.config.globalUsername = '';
-          this.config.globalEmail = '';
-          this.config.globalLoginId = 0;
           this.router.navigate(['/login']);
           console.log(err);
         },
@@ -76,8 +69,31 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
 
     return this.http.post<ResponseModel>(environment.getActiveSessionFunctionUrl, payload, {
       headers,
-    }
-    );
+    });
+  }
+
+  saveActiveSession(payload: RequestModel) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'x-functions-key': '',
+
+    });
+
+    return this.http.post<ResponseModel>(environment.updatedActivityFunctionUrl, payload, {
+      headers,
+    });
+  }
+
+  saveChatSession(payload: ChatRequestModel) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'x-functions-key': '',
+
+    });
+
+    return this.http.post<ChatResponseModel>(environment.saveChatDataFunctionUrl, payload, {
+      headers,
+    });
   }
 
   callAgentChat(payload: any) {
@@ -102,10 +118,18 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
     this.renderer.appendChild(newDiv, text);
 
     this.renderer.setStyle(newDiv, 'text-align', 'right');
-    this.renderer.setStyle(newDiv, 'width', '60%');
-    this.renderer.setStyle(newDiv, 'color', '#E3C62D');
+    this.renderer.setStyle(newDiv, 'max-width', '70%');
+    this.renderer.setStyle(newDiv, 'color', '#1B0233');
     this.renderer.setStyle(newDiv, 'align-self', 'flex-end');
     this.renderer.setStyle(newDiv, 'margin', '2vh');
+
+    this.renderer.setStyle(newDiv, 'background-color', 'rgb(255,255,255,0.3)');
+    this.renderer.setStyle(newDiv, 'padding', '2.5vh');
+    this.renderer.setStyle(newDiv, 'border-start-end-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'border-end-start-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'border-start-start-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'box-shadow', '10px 10px 5px rgba(0,0,0,0.5)');
+    this.renderer.setStyle(newDiv, 'width', 'fit-content');
 
     this.renderer.insertBefore(this.parentDiv.nativeElement, newDiv
       , fakeInput);
@@ -119,9 +143,18 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
     const newDiv = this.renderer.createElement('div');
 
     this.renderer.setStyle(newDiv, 'text-align', 'left');
-    this.renderer.setStyle(newDiv, 'width', '60%');
+    this.renderer.setStyle(newDiv, 'max-width', '70%');
+    this.renderer.setStyle(newDiv, 'min-width', '10%');
     this.renderer.setStyle(newDiv, 'color', '#ffffff');
     this.renderer.setStyle(newDiv, 'margin', '2vh');
+
+    this.renderer.setStyle(newDiv, 'background-color', 'rgb(0,0,0,0.3)');
+    this.renderer.setStyle(newDiv, 'padding', '2.5vh');
+    this.renderer.setStyle(newDiv, 'border-start-end-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'border-end-end-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'border-start-start-radius', '5vh');
+    this.renderer.setStyle(newDiv, 'box-shadow', '10px 10px 5px rgba(0,0,0,0.5)');
+    this.renderer.setStyle(newDiv, 'width', 'fit-content');
 
     this.renderer.insertBefore(this.parentDiv.nativeElement
       , newDiv, fakeInput);
@@ -134,13 +167,13 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
         setTimeout(() => {
           newDiv.innerHTML += char;
         }, delay);
-        delay += 30;
+        delay += 2;
       });
 
       setTimeout(() => {
         newDiv.innerHTML += '<br>';
       }, delay);
-      delay += 30;
+      delay += 2;
     });
 
 
@@ -148,18 +181,73 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
 
   addRequest(element: HTMLTextAreaElement) {
     this.addRequestDiv(element.value);
-    const request = element.value;
 
-    this.callAgentChat(request)
+    var req: RequestModel = {
+      emailId: this.config.globalEmail,
+      name: this.config.globalUsername,
+      loginId: this.config.globalLoginId
+    };
+    this.getActiveSession(req)
       .subscribe({
         next: res => {
-          this.isInputFade = true;
-          this.addResponseDiv(res)
+          console.log(res);
+          if (res.isSuccessful && res.returnCode > 0) {
+            const request = element.value;
+
+            this.saveActiveSession(req)
+              .subscribe({
+                next: res => {
+                  if (res.isSuccessful && res.returnCode > 0) {
+
+                    this.callAgentChat(request)
+                      .subscribe({
+                        next: res => {
+                          this.isInputFade = true;
+                          this.addResponseDiv(res);
+
+                          var chatReq: ChatRequestModel = {
+                            emailId: this.config.globalEmail,
+                            name: this.config.globalUsername,
+                            loginId: this.config.globalLoginId,
+                            aiResponseMessage: res,
+                            userRequestPromt: request,
+                          };
+
+                          this.saveChatSession(chatReq)
+                            .subscribe({
+                              next: res => {
+                                console.log(res);
+                              },
+                              error: err => {
+                                console.log(err);
+                              },
+                            });
+                        },
+                        error: err => {
+                          this.isInputFade = true;
+                          console.log(err);
+                          this.addResponseDiv('I beg your pardon. There is something not right at my end. Could you please tell me again?');
+                        },
+                      });
+                  }
+                  else {
+                    this.isInputFade = true;
+                    console.log(res);
+                    this.addResponseDiv('I beg your pardon. There is something not right at my end. Could you please tell me again?');
+                  }
+                },
+                error: err => {
+                  console.log(err);
+                },
+              });
+          }
+          else {
+            this.router.navigate(['/login']);
+          }
         },
         error: err => {
-          this.isInputFade = true;
+          this.router.navigate(['/login']);
           console.log(err);
-          this.addResponseDiv('I beg your pardon. There is something not right at my end. Could you please tell me again?');
         },
       });
 
@@ -169,20 +257,14 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.imageClass = 'image-extended';
-      this.isFade = false;
-      this.isFadeBy = false;
-    }, 1000);
-    setTimeout(() => {
-      this.headerClass = 'header-class';
-      this.imageClass = 'image';
-      this.nameClass = 'name';
-      this.isFadeBy = true;
-      this.headerText = 'MR';
-    }, 2000);
-    setTimeout(() => {
-      this.addResponseDiv('Hi! I am Sourav Roy Choudhury.\r\nNice to meet you.\r\nYou can ask me anything about my career, education and skill set.')
-    }, 2500);
+      this.myNameClass = 'my-name-class-last';
+      this.nameClass = 'name-original-end';
+      this.logoCLass = 'logo-original-end';
+      this.headerClass = 'header-container-end';
+      setTimeout(() => {
+        this.addResponseDiv('Hi! I am Sourav Roy Choudhury.\r\nNice to meet you.\r\nYou can ask me anything about my career, education and skill set.')
+      }, 1500);
+    }, 500);
   }
 
   ngAfterViewChecked() {

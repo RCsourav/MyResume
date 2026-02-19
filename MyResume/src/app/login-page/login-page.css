@@ -223,3 +223,52 @@
   margin: 16px auto; /* center horizontally */
   transition: 0.2s ease;
 }
+
+.error-class-up {
+  position: relative;
+  top: 15vh;
+  width: 100%;
+  text-align: center;
+  color: #0ff;
+  transition: 0.2s ease;
+}
+
+.error-class-down {
+  position: relative;
+  top: 20vh;
+  width: 100%;
+  text-align: center;
+  color: #0ff;
+  transition: 0.2s ease;
+}
+
+.name-error {
+  color: #0ff;
+  font-size: 14px;
+  margin-top: 4px;
+  position: relative;
+  top: 15vh;
+  width: 100%;
+  text-align: center;
+  transition: 0.2s ease;
+}
+
+.email-error {
+  color: #0ff;
+  font-size: 14px;
+  margin-top: 4px;
+  position: relative;
+  top: 20vh;
+  width: 100%;
+  text-align: center;
+  transition: 0.2s ease;
+}
+
+.input-data.user-input.ng-invalid.ng-touched {
+  border: 1px solid #0ff;
+}
+
+.input-data.email-input.ng-invalid.ng-touched {
+  border: 1px solid #0ff;
+}
+

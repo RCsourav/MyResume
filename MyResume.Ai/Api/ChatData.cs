@@ -20,8 +20,9 @@ public class ChatData
         _manager = manager;
     }
 
-    [Function("api/SaveChatData")]
-    public async Task<IActionResult> SaveChatData([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+    [Function("SaveChatData")]
+    public async Task<IActionResult> SaveChatData([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post"
+        ,Route ="api/SaveChatData")] HttpRequest req)
     {
         _logger.LogInformation("C# HTTP trigger function 'SaveChatData' is called.");
 

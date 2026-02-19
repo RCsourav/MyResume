@@ -377,7 +377,7 @@ namespace MyResume.Api.Repo.Repo
                 if (lastActiveSession != null)
                 {
                     var loginHistoryData = _dbContext.UserLoginHistories.Where(x => x.Id == lastActiveSession.UserHistoryId).FirstOrDefault();
-                    if (loginHistoryData != null)
+                    if (loginHistoryData != null && loginHistoryData.Id == loginRequestData.LoginId)
                     {
                         loginHistoryData.LastActivityTime = estTime;
                         _dbContext.UserLoginHistories.Update(loginHistoryData);

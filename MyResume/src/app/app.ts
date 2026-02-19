@@ -30,10 +30,6 @@ export class App implements OnInit {
     const blob = new Blob([payload], { type: 'application/json' });
 
     navigator.sendBeacon(url, blob);
-
-    this.config.globalUsername = '';
-    this.config.globalEmail = '';
-    this.config.globalLoginId = 0;
   }
 
 

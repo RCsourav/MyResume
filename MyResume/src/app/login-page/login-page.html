@@ -3,15 +3,29 @@
   <div [class]="nameClass" [class.fade]="isFade">MY RESUME</div>
   <div class="my-name-class" [class.fade]="isFade">© Sourav Roy Choudhury</div>
 
-  <div [class]="loginModule" [class.fade]="isFadeModule">
-    <div class="header-class">
-      lets get started!<br />
-      just your name and email id to start with!..
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div [class]="loginModule" [class.fade]="isFadeModule">
+      <div class="header-class">
+        lets get started!<br />
+        just your name and email id to start with!..
+      </div>
+      <input #userName class="input-data user-input" placeholder="you name" formControlName="userName" />
+      <div class="name-error"
+           *ngIf="form.controls['userName'].invalid && form.controls['userName'].touched">
+        name is required
+      </div>
+
+      <input #emailId class="input-data email-input" placeholder="you email id" formControlName="email" />
+      <div class="email-error"
+           *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+        email is required
+      </div>
+      <br />
+      <button type="submit" [class]="buttonClass" [class.fade]="isButtonFade" [disabled]="form.invalid">login!</button>
+      <div [class]="spinnerClass" [class.fade]="isSpinnerFade"></div>
+      <div [class]="errorClass" [class.fade]="isErrorFade">something went worng! please try again....</div>
     </div>
-    <input #userName class="input-data user-input" placeholder="you name" />
-    <input #emailId class="input-data email-input" placeholder="you email id" />
-    <br />
-    <button type="button" (click)="login()" [class]="buttonClass" [class.fade]="isButtonFade">login!</button>
-    <div [class]="spinnerClass" [class.fade]="isSpinnerFade"></div>
-  </div>
+  </form>
+
 </div>

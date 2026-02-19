@@ -85,7 +85,7 @@ namespace MyResume.Api.Repo.Repo
                 else
                 {
                     var loginHistoryData = _dbContext.UserLoginHistories.Where(x => x.Id == lastActiveSession.UserHistoryId).FirstOrDefault();
-                    if (loginHistoryData != null)
+                    if (loginHistoryData != null && loginHistoryData.Id == chatRequestData.LoginId)
                     {
                         loginHistoryData.LastActivityTime = estTime;
                         _dbContext.UserLoginHistories.Update(loginHistoryData);

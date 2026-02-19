@@ -6,10 +6,12 @@
   </div>
 
 </div>
-  <textarea class="chat-input" placeholder="your thoughts" #myInput type="text" (keyup.enter)="addRequest(myInput)"></textarea>
+<textarea class="chat-input" placeholder="your thoughts" #myInput type="text" (keyup.enter)="addRequest(myInput)"></textarea>
+
 <div [class]="headerClass">
-  <div [class]="imageClass" [class.fade]="isFade">{{headerText}}</div>
-  <div [class]="byClass" [class.fade]="isFadeBy">by</div>
+  <img [class]="logoCLass" src="assets/icon/my-resume.white.png" />
+  <div [class]="nameClass">MY RESUME</div>
+  <div [class]="myNameClass" >© Sourav Roy Choudhury</div>
 </div>
-<div [class]="nameClass" [class.fade]="isFade">© Sourav Roy Choudhury</div>
+
 <div class="footer-class"></div>

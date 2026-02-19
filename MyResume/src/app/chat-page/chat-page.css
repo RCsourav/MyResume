@@ -1,27 +1,27 @@
 .chat-container {
-  background: radial-gradient(circle at top left, #910745, #2D0336,#06010D);
+  background: radial-gradient(circle at top left, #910745,#8F0791, #4E0791);
   position: absolute;
   bottom: 0vh;
   left: 0vw;
   width: 100vw;
   height: 100vh;
   color: #ffffff;
-  font-family: monospace;
+  font-family: 'Segoe UI';
   min-height: 0;
 }
 
 .chat-box {
-  position: relative;
-  top: 10vh;
+  position: absolute;
+  bottom: 18vh;
   left: 1vw;
   width: 98vw;
-  height: 70vh;
+  height: 65vh;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
 .chat-thread {
-  min-height: 69vh;
+  min-height: 64vh;
   bottom: 0vh;
   position: relative;
   justify-content: flex-end;
@@ -50,15 +50,23 @@
   min-height: 5vh;
   text-align: right;
   color: #E3C62D;
-  font-family: monospace;
-  caret-color: transparent; /* hide the real | cursor */
-  /*border-bottom: 2px solid black;*/ /* looks like _ */
-  /*padding-bottom: 2px;*/
+  font-family: 'Segoe UI';
+  border-radius: 1vh;
+  transition: 1s ease;
+  padding: 1vh;
 }
 
   .chat-input:focus {
     outline: none;
+    border: none;
+    background-color: rgb(45, 3, 54,0.5);
+    box-shadow: 5px 2px 5px rgba(0,0,0,0.7);
   }
+
+    .chat-input:focus::placeholder {
+      opacity: 0;
+    }
+
 
 .fake-input::after {
   content: "_";
@@ -66,92 +74,7 @@
   color: #ffffff;
   z-index: 100;
   animation: blink 0.8s steps(1) infinite;
-  font-family: monospace;
-}
-
-.header-class-extended {
-  position: absolute;
-  top: 0vh;
-  left: 0vw;
-  height: 100vh;
-  width: 100vw;
-  background-color: #910745;
-  z-index: 1;
-  overflow: hidden;
-  transition: 1s ease;
-}
-
-.header-class {
-  position: absolute;
-  top: 0vh;
-  left: 0vw;
-  height: 9vh;
-  width: 100vw;
-  background-color: #2D0336;
-  z-index: 1;
-  overflow: hidden;
-  transition: 1s ease;
-}
-
-.image-initial {
-  position: absolute;
-  top: 40vh;
-  right: 5vh;
-  text-align: center;
-  font-size: 5rem;
-  font-weight: 900;
-  font-family: Arial;
-  transition: 1s ease;
-}
-
-.image-extended {
-  position: absolute;
-  top: 40vh;
-  right: 10vh;
-  font-size: 5rem;
-  font-weight: 900;
-  font-family: Arial;
-  transition: 1s ease;
-}
-
-.image {
-  position: absolute;
-  top: 3vh;
-  left: 2vh;
-  font-size: 1rem;
-  font-weight: 900;
-  font-family: Rockwell;
-  color: white;
-  font-stretch: ultra-condensed;
-  transition: 1s ease;
-}
-
-.by-extended {
-  position: absolute;
-  right: 10vw;
-  bottom: 5vh;
-  text-align: center;
-  font-size: 0.7rem;
-  transition: 1s ease;
-}
-
-.name-extended {
-  position: absolute;
-  bottom: 1vh;
-  right: 10vw;
-  text-align: center;
-  font-size: 1.3rem;
-  transition: 1s ease;
-  z-index: 10;
-}
-
-.name {
-  position: absolute;
-  bottom: 2vh;
-  right: 3vw;
-  font-size: 0.7rem;
-  transition: 1s ease;
-  z-index: 10;
+  font-family: 'Segoe UI';
 }
 
 .footer-class {
@@ -165,5 +88,91 @@
 
 .fade {
   opacity: 0;
+  transition: 1s ease;
+}
+
+
+.my-name-class {
+  position: absolute;
+  font-size: 2vh;
+  left: 46vw;
+  top: 95vh;
+  font-family: 'Segoe UI';
+  font-weight: 200;
+  color: #ffffff;
+  z-index: 1000;
+  transition: 1s ease;
+}
+
+.my-name-class-last {
+  position: absolute;
+  font-size: 2vh;
+  left: 80vw;
+  top: 95vh;
+  font-family: 'Segoe UI';
+  font-weight: 200;
+  color: #ffffff;
+  z-index: 1000;
+  transition: 1s ease;
+}
+
+
+.logo-original-start {
+  position: absolute;
+  height: 25vh;
+  left: 39.2vw;
+  top: 25vh;
+  transition: 1s ease;
+}
+
+.name-original-start {
+  position: absolute;
+  font-size: 5vh;
+  left: 43vw;
+  top: 55vh;
+  font-family: 'Segoe UI';
+  font-weight: 900;
+  letter-spacing: 1vh;
+  color: #ffffff;
+  transition: 1s ease;
+}
+
+.logo-original-end {
+  position: absolute;
+  height: 4vh;
+  left: 2vw;
+  top: 2vh;
+  transition: 1s ease;
+}
+
+.name-original-end {
+  position: absolute;
+  font-size: 4vh;
+  left: 7vw;
+  top: 1.6vh;
+  font-family: 'Segoe UI';
+  font-weight: 500;
+  letter-spacing: -0.3vh;
+  color: #ffffff;
+  transition: 1s ease;
+}
+
+.header-container-start {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  height: 100vh;
+  width: 100vw;
+  background-color: #910745;
+  transition: 1s ease;
+}
+
+.header-container-end {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  height: 10vh;
+  width: 100vw;
+  background-color: #910745;
   transition: 1s ease;
 }
