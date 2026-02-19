@@ -31,166 +31,225 @@ namespace MyResume.Api.Manager
         {
             _logger.LogInformation("C# LogActivityManager 'GetActiveSessionAsync' method is called.");
 
-            if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+            try
             {
+                if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "IP address is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.Name))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "User name is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.EmailId))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "Email ID is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                UserLogResponseData response = await _repo.GetActiveSessionAsync(loginRequestData);
+
+                _logger.LogInformation(response.Message);
+                _logger.LogInformation("C# LogActivityManager 'GetActiveSessionAsync' method is successful.");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in 'GetActiveSessionAsync' method.");
+
                 return new UserLogResponseData()
                 {
-                    Message = "IP address is required.",
+                    Message = ex.ToString(),
                     IsSuccessful = false
                 };
             }
-
-            if (String.IsNullOrEmpty(loginRequestData.Name))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "User name is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(loginRequestData.EmaiId))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "Email ID is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            UserLogResponseData response = await _repo.GetActiveSessionAsync(loginRequestData);
-
-            _logger.LogInformation(response.Message);
-
-            _logger.LogInformation("C# LogActivityManager 'GetActiveSessionAsync' method is successful.");
-
-            return response;
         }
 
         public void LogOff()
         {
-            _repo.LogOff();
+            _logger.LogInformation("C# LogActivityManager 'LogOff' method is called.");
+            try
+            {
+                _repo.LogOff();
+                _logger.LogInformation("C# LogActivityManager 'LogOff' method is successful.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in 'LogOff' method.");
+            }
         }
 
         public async Task<UserLogResponseData> LogOffAsync(UserLogRequestData loginRequestData)
         {
             _logger.LogInformation("C# LogActivityManager 'LogOffAsync' method is called.");
 
-            if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+            try
             {
+                if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "IP address is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.Name))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "User name is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.EmailId))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "Email ID is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                UserLogResponseData response = await _repo.LogOffAsync(loginRequestData);
+
+                _logger.LogInformation(response.Message);
+
+                _logger.LogInformation("C# LogActivityManager 'LogOffAsync' method is successful.");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in 'LogOffAsync' method.");
+
                 return new UserLogResponseData()
                 {
-                    Message = "IP address is required.",
+                    Message = ex.ToString(),
                     IsSuccessful = false
                 };
             }
-
-            if (String.IsNullOrEmpty(loginRequestData.Name))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "User name is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(loginRequestData.EmaiId))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "Email ID is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            UserLogResponseData response = await _repo.LogOffAsync(loginRequestData);
-
-            _logger.LogInformation(response.Message);
-
-            _logger.LogInformation("C# LogActivityManager 'LogOffAsync' method is successful.");
-
-            return response;
         }
 
         public async Task<UserLogResponseData> LogOnAsync(UserLogRequestData loginRequestData)
         {
             _logger.LogInformation("C# LogActivityManager 'LogOnAsync' method is called.");
 
-            if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+            try
             {
+                if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "IP address is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.Name))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "User name is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.EmailId))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "Email ID is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+
+                UserLogResponseData response = await _repo.LogOnAsync(loginRequestData);
+
+                _logger.LogInformation(response.Message);
+
+                _logger.LogInformation("C# LogActivityManager 'LogOnAsync' method is successful.");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in 'LogOnAsync' method.");
+
                 return new UserLogResponseData()
                 {
-                    Message = "IP address is required.",
+                    Message = ex.ToString(),
                     IsSuccessful = false
                 };
             }
-
-            if (String.IsNullOrEmpty(loginRequestData.Name))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "User name is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(loginRequestData.EmaiId))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "Email ID is required.",
-                    IsSuccessful = false
-                };
-            }
-
-
-            UserLogResponseData response = await _repo.LogOnAsync(loginRequestData);
-
-            _logger.LogInformation(response.Message);
-
-            _logger.LogInformation("C# LogActivityManager 'LogOnAsync' method is successful.");
-
-            return response;
         }
 
         public async Task<UserLogResponseData> UpdatedActivityAsync(UserLogRequestData loginRequestData)
         {
             _logger.LogInformation("C# LogActivityManager 'UpdatedActivityAsync' method is called.");
 
-            if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+            try
             {
+                if (String.IsNullOrEmpty(loginRequestData.IpAddress))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "IP address is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.Name))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "User name is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(loginRequestData.EmailId))
+                {
+                    return new UserLogResponseData()
+                    {
+                        Message = "Email ID is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                UserLogResponseData response = await _repo.UpdatedActivityAsync(loginRequestData);
+
+                _logger.LogInformation(response.Message);
+
+                _logger.LogInformation("C# LogActivityManager 'UpdatedActivityAsync' method is successful.");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in 'UpdatedActivityAsync' method.");
+
                 return new UserLogResponseData()
                 {
-                    Message = "IP address is required.",
+                    Message = ex.ToString(),
                     IsSuccessful = false
                 };
             }
-
-            if (String.IsNullOrEmpty(loginRequestData.Name))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "User name is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(loginRequestData.EmaiId))
-            {
-                return new UserLogResponseData()
-                {
-                    Message = "Email ID is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            UserLogResponseData response = await _repo.UpdatedActivityAsync(loginRequestData);
-
-            _logger.LogInformation(response.Message);
-
-            _logger.LogInformation("C# LogActivityManager 'UpdatedActivityAsync' method is successful.");
-
-            return response;
         }
     }
 }

@@ -13,6 +13,13 @@
   }
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Width of the scrollbar */
 ::-webkit-scrollbar {
   width: 4px;

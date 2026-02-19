@@ -26,8 +26,6 @@ public partial class MyResumeContext : DbContext
 
     public virtual DbSet<UserLoginHistory> UserLoginHistories { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

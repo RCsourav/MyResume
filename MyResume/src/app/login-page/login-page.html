@@ -1,0 +1,17 @@
+<div class="login-container">
+  <img [class]="logoCLass" src="assets/icon/my-resume.white.png" [class.fade]="isFade" />
+  <div [class]="nameClass" [class.fade]="isFade">MY RESUME</div>
+  <div class="my-name-class" [class.fade]="isFade">© Sourav Roy Choudhury</div>
+
+  <div [class]="loginModule" [class.fade]="isFadeModule">
+    <div class="header-class">
+      lets get started!<br />
+      just your name and email id to start with!..
+    </div>
+    <input #userName class="input-data user-input" placeholder="you name" />
+    <input #emailId class="input-data email-input" placeholder="you email id" />
+    <br />
+    <button type="button" (click)="login()" [class]="buttonClass" [class.fade]="isButtonFade">login!</button>
+    <div [class]="spinnerClass" [class.fade]="isSpinnerFade"></div>
+  </div>
+</div>

@@ -13,7 +13,7 @@ var builder = FunctionsApplication.CreateBuilder(args);
 builder.ConfigureFunctionsWebApplication();
 
 builder.Services.AddDbContext<MyResumeContext>(options =>
-    options.UseAzureSql(builder.Configuration.GetConnectionString("MyResumeDbConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyResumeDbConnection")));
 
 builder.Services.AddScoped<ILogActivityManager, LogActivityManager>();
 builder.Services.AddScoped<IChatDataManager, ChatDataManager>();

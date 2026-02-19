@@ -3,10 +3,17 @@ import {
   , Renderer2, ViewChild
   , AfterViewInit
   , AfterViewChecked
+  , OnInit
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { environment } from '../../environment';
+import { environment, AppConfigService } from '../../environment';
+import { Router } from '@angular/router';
+
+import { RequestModel } from '../models/request';
+import { ResponseModel } from '../models/response';
+
+
 
 @Component({
   selector: 'app-chat-page',
@@ -14,7 +21,7 @@ import { environment } from '../../environment';
   templateUrl: './chat-page.html',
   styleUrl: './chat-page.css',
 })
-export class ChatPage implements AfterViewInit, AfterViewChecked {
+export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
   @ViewChild('parentDiv') parentDiv!: ElementRef;
   @ViewChild('mainDiv') mainDiv!: ElementRef;
 
@@ -27,20 +34,64 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
   isFadeBy = true;
   isInputFade = true;
 
-  constructor(private renderer: Renderer2, private http: HttpClient) { }
+  constructor(private renderer: Renderer2, private http: HttpClient
+    , private router: Router, private config: AppConfigService) { }
+
+  ngOnInit() {
+    var request: RequestModel = {
+      emailId: this.config.globalEmail,
+      name: this.config.globalUsername,
+      loginId: this.config.globalLoginId
+    };
+    this.getActiveSession(request)
+      .subscribe({
+        next: res => {
+          console.log(res);
+          if (res.isSuccessful && res.returnCode > 0) {
+
+          }
+          else {
+            this.config.globalUsername = '';
+            this.config.globalEmail = '';
+            this.config.globalLoginId = 0;
+            this.router.navigate(['/login']);
+          }
+        },
+        error: err => {
+          this.config.globalUsername = '';
+          this.config.globalEmail = '';
+          this.config.globalLoginId = 0;
+          this.router.navigate(['/login']);
+          console.log(err);
+        },
+      });
+  }
+
+  getActiveSession(payload: RequestModel) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'x-functions-key': '',
+
+    });
+
+    return this.http.post<ResponseModel>(environment.getActiveSessionFunctionUrl, payload, {
+      headers,
+    }
+    );
+  }
 
   callAgentChat(payload: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'text/plain',
       'x-functions-key': '',
-      
+
     });
 
-    return this.http.post(environment.functionUrl, payload, {
+    return this.http.post(environment.aiFunctionUrl, payload, {
       headers,
       responseType: 'text'
     }
-);
+    );
   }
 
   addRequestDiv(request: string) {
@@ -106,7 +157,6 @@ export class ChatPage implements AfterViewInit, AfterViewChecked {
           this.addResponseDiv(res)
         },
         error: err => {
-          debugger;
           this.isInputFade = true;
           console.log(err);
           this.addResponseDiv('I beg your pardon. There is something not right at my end. Could you please tell me again?');

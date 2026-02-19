@@ -26,56 +26,70 @@ namespace MyResume.Api.Manager
         public async Task<UserLogChatResponseData> SaveChatData(UserLogChatRequestData chatRequestData)
         {
             _logger.LogInformation("C# ChatDataManager 'SaveChatData' method is called.");
-            
-            if (String.IsNullOrEmpty(chatRequestData.IpAddress))
+
+            try
             {
+                if (String.IsNullOrEmpty(chatRequestData.IpAddress))
+                {
+                    return new UserLogChatResponseData()
+                    {
+                        Message = "IP address is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(chatRequestData.Name))
+                {
+                    return new UserLogChatResponseData()
+                    {
+                        Message = "User name is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(chatRequestData.EmailId))
+                {
+                    return new UserLogChatResponseData()
+                    {
+                        Message = "Email ID is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(chatRequestData.UserRequestPromt))
+                {
+                    return new UserLogChatResponseData()
+                    {
+                        Message = "User request prompt is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                if (String.IsNullOrEmpty(chatRequestData.AiResponseMessage))
+                {
+                    return new UserLogChatResponseData()
+                    {
+                        Message = "AI response message is required.",
+                        IsSuccessful = false
+                    };
+                }
+
+                UserLogChatResponseData repoResult = await _repo.SaveChatData(chatRequestData);
+
+                _logger.LogInformation("C# ChatDataManager 'SaveChatData' method is successful.");
+                return repoResult;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, "An error occurred in 'SaveChatData' method.");
+
                 return new UserLogChatResponseData()
                 {
-                    Message = "IP address is required.",
+                    Message = ex.ToString(),
                     IsSuccessful = false
                 };
             }
-
-            if (String.IsNullOrEmpty(chatRequestData.Name))
-            {
-                return new UserLogChatResponseData()
-                {
-                    Message = "User name is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(chatRequestData.EmaiId))
-            {
-                return new UserLogChatResponseData()
-                {
-                    Message = "Email ID is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if (String.IsNullOrEmpty(chatRequestData.UserRequestPromt))
-            {
-                return new UserLogChatResponseData()
-                {
-                    Message = "User request prompt is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            if(String.IsNullOrEmpty(chatRequestData.AiResponseMessage))
-            {
-                return new UserLogChatResponseData()
-                {
-                    Message = "AI response message is required.",
-                    IsSuccessful = false
-                };
-            }
-
-            UserLogChatResponseData repoResult = await _repo.SaveChatData(chatRequestData);
-
-            _logger.LogInformation("C# ChatDataManager 'SaveChatData' method is successful.");
-            return repoResult;
         }
     }
 }

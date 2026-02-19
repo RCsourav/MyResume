@@ -6,7 +6,7 @@ using MyResume.Ai.Manager;
 using MyResume.Model.AiModels;
 using Newtonsoft.Json;
 
-namespace MyResume.Ai;
+namespace MyResume.Ai.Ai;
 
 public class AgentChat
 {
@@ -20,7 +20,8 @@ public class AgentChat
     }
 
     [Function("AgentChat")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post"
+        ,Route ="ai/AgentChat")] HttpRequest req)
     {
         try
         {

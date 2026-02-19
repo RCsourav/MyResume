@@ -9,6 +9,6 @@ namespace MyResume.Model.ApiModel
         public int? LoginId { get; set; }
         public string? IpAddress { get; set; }
         public string? Name { get; set; }
-        public string? EmaiId { get; set; }
+        public string? EmailId { get; set; }
     }
 }
