@@ -7,6 +7,7 @@ export class AppConfigService {
   globalLoginId = 0;
   globalUsername = '';
   globalEmail = '';
+  globalSessionTime = 1800;
 }
 
 export const environment = {

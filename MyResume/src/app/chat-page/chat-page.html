@@ -11,7 +11,23 @@
 <div [class]="headerClass">
   <img [class]="logoCLass" src="assets/icon/my-resume.white.png" />
   <div [class]="nameClass">MY RESUME</div>
-  <div [class]="myNameClass" >© Sourav Roy Choudhury</div>
+  <div class="user-name-class" [class.fade]="isUserNameFade">
+    {{userName}}
+    <br />
+    <div id="menuClass">
+      <ul>
+        <li>resume</li>
+        <li (click)="logout()">logout</li>
+      </ul>
+    </div>
+  </div>
+  <div id="countdown" [class.fade]="isUserNameFade">
+    <div id="countdown-number">{{sessionTime}}</div>
+    <svg>
+      <circle r="3vh" cx="3.5vh" cy="3.5vh"></circle>
+    </svg>
+  </div>
+  <div [class]="myNameClass">© Sourav Roy Choudhury</div>
 </div>
 
 <div class="footer-class"></div>

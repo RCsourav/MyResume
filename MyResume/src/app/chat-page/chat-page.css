@@ -18,6 +18,9 @@
   height: 65vh;
   overflow-y: scroll;
   overflow-x: hidden;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.2) 100% );
+  border-radius: 5px;
+  box-shadow: 2px 10px 5px rgba(0,0,0,0.2);
 }
 
 .chat-thread {
@@ -44,7 +47,7 @@
   position: absolute;
   bottom: 10vh;
   width: 90vw;
-  right: 5vw;
+  left: 1vw;
   background-color: transparent;
   border: none;
   min-height: 5vh;
@@ -69,12 +72,13 @@
 
 
 .fake-input::after {
-  content: "_";
-  font-weight: bolder;
+  content: "typing.....";
+  position: relative;
   color: #ffffff;
   z-index: 100;
-  animation: blink 0.8s steps(1) infinite;
   font-family: 'Segoe UI';
+  left: 2vw;
+  font-style: italic;
 }
 
 .footer-class {
@@ -163,6 +167,7 @@
   left: 0vh;
   height: 100vh;
   width: 100vw;
+  z-index: 1000;
   background-color: #910745;
   transition: 1s ease;
 }
@@ -176,3 +181,94 @@
   background-color: #910745;
   transition: 1s ease;
 }
+
+.user-name-class {
+  position: absolute;
+  right: 10vw;
+  width: 15vw;
+  top: 4vh;
+  color: #fff;
+  cursor: pointer;
+  transition: 1s ease;
+  text-align: center;
+}
+
+  .user-name-class #menuClass {
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    position: relative;
+    top: 0vh;
+    max-height: 0vh;
+    opacity: 0;
+    width: 15vw;
+    border-end-end-radius: 20px;
+    border-end-start-radius: 20px;
+    background-color: #910745;
+    padding: 2vh;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+  }
+
+    .user-name-class #menuClass ul {
+      opacity: 0;
+      padding-left: 0;
+      margin-left: 0;
+      text-align: center;
+    }
+
+      .user-name-class #menuClass ul li {
+        padding: 2vh;
+        list-style-type: none;
+        list-style: none;
+        margin-bottom: 2vh;
+        box-shadow: inset 5px 2px 10px rgba(255,255,255,0.15),5px 2px 10px rgba(0,0,0,0.15);
+        border-radius: 5vh;
+      }
+
+        .user-name-class #menuClass ul li:hover {
+          transform: scale(1.1);
+          box-shadow: inset 5px 2px 10px rgba(255,255,255,0.2),5px 2px 10px rgba(0,0,0,0.2);
+        }
+
+  .user-name-class:hover #menuClass {
+    max-height: 20vh;
+    opacity: 1;
+  }
+
+    .user-name-class:hover #menuClass ul {
+      opacity: 1;
+    }
+
+#countdown {
+  position: absolute;
+  right: 2vw;
+  margin-top: 2vh;
+  height: 7vh;
+  width: 7vh;
+  text-align: center;
+  transition: 1s ease;
+}
+
+#countdown-number {
+  color: white;
+  display: inline-block;
+  line-height: 7vh;
+  font-size: 1.7vh;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 7vh;
+  width: 7vh;
+  transform: rotateZ(-90deg);
+}
+
+  svg circle {
+    stroke-dasharray: 18.3vh;
+    stroke-dashoffset: 0px;
+    stroke-linecap: round;
+    stroke-width: 1vh;
+    stroke: #198051;
+    fill: none;
+    animation: countdown 1800s linear infinite forwards;
+  }

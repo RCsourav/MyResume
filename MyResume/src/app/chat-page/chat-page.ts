@@ -4,6 +4,7 @@ import {
   , AfterViewInit
   , AfterViewChecked
   , OnInit
+  , OnDestroy
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -23,7 +24,7 @@ import { ChatResponseModel } from '../models/chatResponse';
   templateUrl: './chat-page.html',
   styleUrl: './chat-page.css',
 })
-export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
+export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDestroy {
   @ViewChild('parentDiv') parentDiv!: ElementRef;
   @ViewChild('mainDiv') mainDiv!: ElementRef;
 
@@ -32,11 +33,21 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
   myNameClass = 'my-name-class';
   headerClass = 'header-container-start';
   isInputFade = true;
+  isUserNameFade = true;
+  userName = '';
+  sessionTime = '';
+  timer: any;
+
 
   constructor(private renderer: Renderer2, private http: HttpClient
     , private router: Router, private config: AppConfigService) { }
 
+
+
   ngOnInit() {
+    this.startTimer();
+    this.userName = this.config.globalUsername;
+    //this.userName = 'Sourav Roy Choudhury';
     var request: RequestModel = {
       emailId: this.config.globalEmail,
       name: this.config.globalUsername,
@@ -47,7 +58,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
         next: res => {
           console.log(res);
           if (res.isSuccessful && res.returnCode > 0) {
-
+            this.config.globalSessionTime
           }
           else {
             this.router.navigate(['/login']);
@@ -58,6 +69,10 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
           console.log(err);
         },
       });
+  }
+
+  ngOnDestroy() {
+    this.stopTimer();
   }
 
   getActiveSession(payload: RequestModel) {
@@ -80,6 +95,18 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
     });
 
     return this.http.post<ResponseModel>(environment.updatedActivityFunctionUrl, payload, {
+      headers,
+    });
+  }
+
+  logoutSession(payload: RequestModel) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'x-functions-key': '',
+
+    });
+
+    return this.http.post<ResponseModel>(environment.logoffFunctionUrl, payload, {
       headers,
     });
   }
@@ -108,6 +135,50 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
       responseType: 'text'
     }
     );
+  }
+
+  convertToMMSS(totalSeconds: number): string {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const mm = minutes.toString().padStart(2, '0');
+    const ss = seconds.toString().padStart(2, '0');
+
+    return `${mm}:${ss}`;
+  }
+
+  startTimer() {
+    this.timer = setInterval(() => {
+      this.config.globalSessionTime--;
+      this.sessionTime = this.convertToMMSS(this.config.globalSessionTime);
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
+  logout() {
+    var req: RequestModel = {
+      emailId: this.config.globalEmail,
+      name: this.config.globalUsername,
+      loginId: this.config.globalLoginId
+    };
+    this.logoutSession(req)
+      .subscribe({
+        next: res => {
+          if (res.isSuccessful && res.returnCode > 0) {
+              this.myNameClass = 'my-name-class';
+              this.nameClass = 'name-original-start';
+              this.logoCLass = 'logo-original-start';
+              this.headerClass = 'header-container-start';
+              this.isUserNameFade = true;
+          }
+        },
+        error: err => {
+          console.log(err);
+        },
+      });
   }
 
   addRequestDiv(request: string) {
@@ -181,6 +252,8 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
 
   addRequest(element: HTMLTextAreaElement) {
     this.addRequestDiv(element.value);
+    const request = element.value;
+    element.value = '';
 
     var req: RequestModel = {
       emailId: this.config.globalEmail,
@@ -192,13 +265,12 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
         next: res => {
           console.log(res);
           if (res.isSuccessful && res.returnCode > 0) {
-            const request = element.value;
 
             this.saveActiveSession(req)
               .subscribe({
                 next: res => {
                   if (res.isSuccessful && res.returnCode > 0) {
-
+                    this.config.globalSessionTime = 1800;
                     this.callAgentChat(request)
                       .subscribe({
                         next: res => {
@@ -252,7 +324,6 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
       });
 
     //this.addResponseDiv('Hi! I am Sourav.\r\n\r\nHow can I help you?');
-    element.value = '';
   }
 
   ngAfterViewInit() {
@@ -262,7 +333,8 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit {
       this.logoCLass = 'logo-original-end';
       this.headerClass = 'header-container-end';
       setTimeout(() => {
-        this.addResponseDiv('Hi! I am Sourav Roy Choudhury.\r\nNice to meet you.\r\nYou can ask me anything about my career, education and skill set.')
+        this.addResponseDiv('Hi! I am Sourav Roy Choudhury.\r\nNice to meet you.\r\nYou can ask me anything about my career, education and skill set.');
+        this.isUserNameFade = false;
       }, 1500);
     }, 500);
   }

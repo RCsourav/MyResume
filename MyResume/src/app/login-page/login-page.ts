@@ -99,6 +99,7 @@ export class LoginPage implements OnInit {
         this.loginCall(request)
           .subscribe({
             next: res => {
+              console.log(res);
               if (res.isSuccessful && res.returnCode > 0) {
                 setTimeout(() => {
                   this.isSpinnerFade = true;
