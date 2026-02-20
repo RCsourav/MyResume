@@ -6,8 +6,10 @@
   </div>
 
 </div>
-<textarea class="chat-input" placeholder="your thoughts" #myInput type="text" (keyup.enter)="addRequest(myInput)"></textarea>
-
+<div>
+<textarea class="chat-input" placeholder="your thoughts" #myInput type="text" (keyup.enter)="addRequest()" ></textarea>
+</div>
+<button type="button" class="send-button" (click)="addRequest()">ask me!</button>
 <div [class]="headerClass">
   <img [class]="logoCLass" src="assets/icon/my-resume.white.png" />
   <div [class]="nameClass">MY RESUME</div>
@@ -16,7 +18,7 @@
     <br />
     <div id="menuClass">
       <ul>
-        <li>resume</li>
+        <li (click)="openResume()">resume</li>
         <li (click)="logout()">logout</li>
       </ul>
     </div>

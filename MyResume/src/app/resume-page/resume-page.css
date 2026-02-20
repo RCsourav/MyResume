@@ -1,0 +1,213 @@
+.footer-class {
+  position: absolute;
+  bottom: 0vh;
+  right: 0vw;
+  width: 100vw;
+  height: 7vh;
+  background-color: #093a47;
+}
+
+.fade {
+  opacity: 0;
+  transition: 1s ease;
+}
+
+
+.my-name-class {
+  position: absolute;
+  font-size: 2vh;
+  left: 46vw;
+  top: 95vh;
+  font-family: 'Segoe UI';
+  font-weight: 200;
+  color: #ffffff;
+  z-index: 1000;
+  transition: 1s ease;
+}
+
+.my-name-class-last {
+  position: absolute;
+  font-size: 2vh;
+  left: 80vw;
+  top: 95vh;
+  font-family: 'Segoe UI';
+  font-weight: 200;
+  color: #ffffff;
+  z-index: 1000;
+  transition: 1s ease;
+}
+
+
+.logo-original-start {
+  position: absolute;
+  height: 25vh;
+  left: 39.2vw;
+  top: 25vh;
+  transition: 1s ease;
+  filter: invert(17%) sepia(50%) saturate(7400%) hue-rotate(154deg) brightness(95%) contrast(105%);
+}
+
+.name-original-start {
+  position: absolute;
+  font-size: 5vh;
+  left: 43vw;
+  top: 55vh;
+  font-family: 'Segoe UI';
+  font-weight: 900;
+  letter-spacing: 1vh;
+  color: #c1ebf2;
+  transition: 1s ease;
+}
+
+.logo-original-end {
+  position: absolute;
+  height: 4vh;
+  left: 2vw;
+  top: 2vh;
+  transition: 1s ease;
+  filter: invert(17%) sepia(50%) saturate(7400%) hue-rotate(154deg) brightness(95%) contrast(105%);
+}
+
+.name-original-end {
+  position: absolute;
+  font-size: 4vh;
+  left: 7vw;
+  top: 1.6vh;
+  font-family: 'Segoe UI';
+  font-weight: 500;
+  letter-spacing: -0.3vh;
+  color: #c1ebf2;
+  transition: 1s ease;
+}
+
+.header-container-start {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  background-color: #093a47;
+  transition: 1s ease;
+}
+
+.header-container-end {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  height: 10vh;
+  width: 100vw;
+  background-color: #093a47;
+  transition: 1s ease;
+  z-index: 1000;
+}
+
+.user-name-class {
+  position: absolute;
+  right: 10vw;
+  width: 12vw;
+  top: 4vh;
+  color: #fff;
+  cursor: pointer;
+  transition: 1s ease;
+  text-align: center;
+}
+
+  .user-name-class #menuClass {
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    position: relative;
+    top: 0vh;
+    max-height: 0vh;
+    opacity: 0;
+    width: 12vw;
+    border-end-end-radius: 20px;
+    border-end-start-radius: 20px;
+    /*background-color: #382e33;*/
+    padding: 2vh;
+    /*box-shadow: 2px 2px 2px rgba(0,0,0,0.2);*/
+  }
+
+    .user-name-class #menuClass ul {
+      opacity: 0;
+      padding-left: 0;
+      margin-left: 0;
+      text-align: center;
+    }
+
+      .user-name-class #menuClass ul li {
+        padding: 1vh;
+        list-style-type: none;
+        list-style: none;
+        margin-bottom: 1vh;
+        background-color: #382e33;
+        box-shadow: inset 5px 2px 10px rgba(255,255,255,0.15),5px 2px 10px rgba(0,0,0,0.15);
+        border-radius: 2vh;
+      }
+
+        .user-name-class #menuClass ul li:hover {
+          transform: scale(1.1);
+          box-shadow: inset 5px 2px 10px rgba(255,255,255,0.2),5px 2px 10px rgba(0,0,0,0.2);
+        }
+
+  .user-name-class:hover #menuClass {
+    max-height: 20vh;
+    opacity: 1;
+  }
+
+    .user-name-class:hover #menuClass ul {
+      opacity: 1;
+    }
+
+#countdown {
+  position: absolute;
+  right: 2vw;
+  margin-top: 2vh;
+  height: 7vh;
+  width: 7vh;
+  text-align: center;
+  transition: 1s ease;
+}
+
+#countdown-number {
+  color: white;
+  display: inline-block;
+  line-height: 7vh;
+  font-size: 1.7vh;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 7vh;
+  width: 7vh;
+  transform: rotateZ(-90deg);
+}
+
+  svg circle {
+    stroke-dasharray: 18.3vh;
+    stroke-dashoffset: 0px;
+    stroke-linecap: round;
+    stroke-width: 1vh;
+    stroke: #198051;
+    fill: none;
+    animation: countdown 1800s linear infinite forwards;
+  }
+
+.circle-wrapper {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: visible; /* allow image to break out */
+  position: relative;
+  background: #910745; /* optional background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-image {
+  width: 160px; /* slightly larger than the circle */
+  position: absolute;
+  top: -25px; /* pushes image upward */
+}

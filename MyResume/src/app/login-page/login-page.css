@@ -4,7 +4,7 @@
   left: 0vw;
   height: 100vh;
   width: 100vw;
-  background-color: #910745;
+  background-color: #093a47;
   transition: 1s ease;
 }
 
@@ -14,6 +14,7 @@
   left: 39.2vw;
   top: 30vh;
   transition: 1s ease;
+  filter: invert(17%) sepia(50%) saturate(7400%) hue-rotate(154deg) brightness(95%) contrast(105%);
 }
 
 .name-original-start {
@@ -24,7 +25,7 @@
   font-family: 'Segoe UI';
   font-weight: 900;
   letter-spacing: 1vh;
-  color: #ffffff;
+  color: #c1ebf2;
   transition: 1s ease;
 }
 
@@ -34,6 +35,7 @@
   left: 39.2vw;
   top: 25vh;
   transition: 1s ease;
+  filter: invert(17%) sepia(50%) saturate(7400%) hue-rotate(154deg) brightness(95%) contrast(105%);
 }
 
 .name-original-end {
@@ -44,7 +46,7 @@
   font-family: 'Segoe UI';
   font-weight: 900;
   letter-spacing: 1vh;
-  color: #ffffff;
+  color: #c1ebf2;
   transition: 1s ease;
 }
 
@@ -54,6 +56,7 @@
   left: 46vw;
   top: 8vh;
   transition: 1s ease;
+  filter: invert(17%) sepia(50%) saturate(7400%) hue-rotate(154deg) brightness(95%) contrast(105%);
 }
 
 .name-original-last {
@@ -64,7 +67,7 @@
   font-family: 'Segoe UI';
   font-weight: 900;
   letter-spacing: 0.3vh;
-  color: #ffffff;
+  color: #c1ebf2;
   transition: 1s ease;
 }
 
@@ -90,7 +93,7 @@
   left: 35vw;
   top: 35vh;
   border-radius: 5vh;
-  background-color: #AB1558;
+  /*background-color: #AB1558;*/
   transition: 1s ease;
   box-shadow: inset 5px 2px 30px rgba(255,255,255,0.15),5px 2px 30px rgba(0,0,0,0.15);
 }
@@ -102,7 +105,7 @@
   left: 35vw;
   top: 25vh;
   border-radius: 5vh;
-  background-color: #AB1558;
+  /*background-color: #AB1558;*/
   transition: 1s ease;
   box-shadow: inset 5px 2px 30px rgba(255,255,255,0.15),5px 2px 30px rgba(0,0,0,0.15);
   text-shadow: 5px 2px 30px rgba(0,0,0,0.15);
@@ -126,12 +129,12 @@
   width: 20vw;
   border-radius: 2.5vh;
   border: none;
-  background-color: #BF2268;
+  background-color: rgba(255,255,255,0.15);
   transition: 1s ease;
   text-align: center;
   font-family: 'Segoe UI';
   color: #ffffff;
-  font-size:2vh;
+  font-size: 2vh;
 }
 
   .input-data:focus {
@@ -140,12 +143,12 @@
   }
 
   .input-data::placeholder {
-    color: #ED72A9;
+    color: #ffffff;
     font-family: 'Segoe UI';
   }
 
   .input-data:focus::placeholder {
-      opacity:0;
+    opacity: 0;
   }
 
 .user-input {
@@ -164,8 +167,8 @@
   width: 10vw;
   border: none;
   border-radius: 3vh;
-  background-color: #2D0336;
-  color: #ED72A9;
+  background-color: #04191f;
+  color: #ffffff;
   font-family: 'Segoe UI';
   font-weight: bold;
   transition: 0.2s ease;
@@ -271,4 +274,3 @@
 .input-data.email-input.ng-invalid.ng-touched {
   border: 1px solid #0ff;
 }
-

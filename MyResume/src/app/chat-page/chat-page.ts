@@ -4,7 +4,8 @@ import {
   , AfterViewInit
   , AfterViewChecked
   , OnInit
-  , OnDestroy
+  , OnDestroy,
+  input
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -27,6 +28,7 @@ import { ChatResponseModel } from '../models/chatResponse';
 export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDestroy {
   @ViewChild('parentDiv') parentDiv!: ElementRef;
   @ViewChild('mainDiv') mainDiv!: ElementRef;
+  @ViewChild('myInput') input!: ElementRef;
 
   nameClass = 'name-original-start';
   logoCLass = 'logo-original-start';
@@ -73,6 +75,18 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
 
   ngOnDestroy() {
     this.stopTimer();
+  }
+
+  openResume() {
+    this.myNameClass = 'my-name-class';
+    this.nameClass = 'name-original-start';
+    this.logoCLass = 'logo-original-start';
+    this.headerClass = 'header-container-start';
+    this.isUserNameFade = true;
+
+    setTimeout(() => {
+      this.router.navigate(['/resume']);
+    }, 1000);
   }
 
   getActiveSession(payload: RequestModel) {
@@ -168,11 +182,11 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
       .subscribe({
         next: res => {
           if (res.isSuccessful && res.returnCode > 0) {
-              this.myNameClass = 'my-name-class';
-              this.nameClass = 'name-original-start';
-              this.logoCLass = 'logo-original-start';
-              this.headerClass = 'header-container-start';
-              this.isUserNameFade = true;
+            this.myNameClass = 'my-name-class';
+            this.nameClass = 'name-original-start';
+            this.logoCLass = 'logo-original-start';
+            this.headerClass = 'header-container-start';
+            this.isUserNameFade = true;
           }
         },
         error: err => {
@@ -194,7 +208,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
     this.renderer.setStyle(newDiv, 'align-self', 'flex-end');
     this.renderer.setStyle(newDiv, 'margin', '2vh');
 
-    this.renderer.setStyle(newDiv, 'background-color', 'rgb(255,255,255,0.3)');
+    this.renderer.setStyle(newDiv, 'background-color', 'rgb(193, 235, 247,0.8)');
     this.renderer.setStyle(newDiv, 'padding', '2.5vh');
     this.renderer.setStyle(newDiv, 'border-start-end-radius', '5vh');
     this.renderer.setStyle(newDiv, 'border-end-start-radius', '5vh');
@@ -206,6 +220,8 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
       , fakeInput);
 
     this.isInputFade = false;
+    setTimeout(() => this.scrollToBottom(), 0);
+
   }
 
   addResponseDiv(request: string) {
@@ -219,7 +235,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
     this.renderer.setStyle(newDiv, 'color', '#ffffff');
     this.renderer.setStyle(newDiv, 'margin', '2vh');
 
-    this.renderer.setStyle(newDiv, 'background-color', 'rgb(0,0,0,0.3)');
+    this.renderer.setStyle(newDiv, 'background-color', 'rgb(4, 25, 31,0.8)');
     this.renderer.setStyle(newDiv, 'padding', '2.5vh');
     this.renderer.setStyle(newDiv, 'border-start-end-radius', '5vh');
     this.renderer.setStyle(newDiv, 'border-end-end-radius', '5vh');
@@ -237,12 +253,14 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
       chars.forEach(char => {
         setTimeout(() => {
           newDiv.innerHTML += char;
+          setTimeout(() => this.scrollToBottom(), 0);
         }, delay);
         delay += 2;
       });
 
       setTimeout(() => {
         newDiv.innerHTML += '<br>';
+        setTimeout(() => this.scrollToBottom(), 0);
       }, delay);
       delay += 2;
     });
@@ -250,7 +268,9 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
 
   }
 
-  addRequest(element: HTMLTextAreaElement) {
+  addRequest() {
+    var element: HTMLTextAreaElement;
+    element = this.input.nativeElement;
     this.addRequestDiv(element.value);
     const request = element.value;
     element.value = '';
@@ -340,7 +360,7 @@ export class ChatPage implements AfterViewInit, AfterViewChecked, OnInit, OnDest
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    //this.scrollToBottom();
   }
 
   private scrollToBottom() {
