@@ -7,12 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { LoginPage } from './login-page/login-page';
 
 @NgModule({
   declarations: [
     App,
-    LoginPage
   ],
   imports: [
     BrowserModule,
